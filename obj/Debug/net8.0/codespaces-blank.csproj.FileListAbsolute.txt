@@ -1,0 +1,17 @@
+/workspaces/codespaces-blank/bin/Debug/net8.0/codespaces-blank
+/workspaces/codespaces-blank/bin/Debug/net8.0/codespaces-blank.deps.json
+/workspaces/codespaces-blank/bin/Debug/net8.0/codespaces-blank.runtimeconfig.json
+/workspaces/codespaces-blank/bin/Debug/net8.0/codespaces-blank.dll
+/workspaces/codespaces-blank/bin/Debug/net8.0/codespaces-blank.pdb
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.AssemblyInfoInputs.cache
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.AssemblyInfo.cs
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.csproj.CoreCompileInputs.cache
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.dll
+/workspaces/codespaces-blank/obj/Debug/net8.0/refint/codespaces-blank.dll
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.pdb
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.genruntimeconfig.cache
+/workspaces/codespaces-blank/obj/Debug/net8.0/ref/codespaces-blank.dll
+/workspaces/codespaces-blank/bin/Debug/net8.0/Telegram.Bot.dll
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.csproj.AssemblyReference.cache
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespac.7BB1070C.Up2Date
