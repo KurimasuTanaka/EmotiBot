@@ -15,3 +15,4 @@
 /workspaces/codespaces-blank/bin/Debug/net8.0/Telegram.Bot.dll
 /workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.csproj.AssemblyReference.cache
 /workspaces/codespaces-blank/obj/Debug/net8.0/codespac.7BB1070C.Up2Date
+/workspaces/codespaces-blank/obj/Debug/net8.0/codespaces-blank.sourcelink.json

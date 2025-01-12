@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Services.EmoticonsService;
 using StudyBot.Abstract;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
@@ -36,6 +37,7 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(  (con
 
     services.AddScoped<IUpdateHandler, UpdateHandler>();
     services.AddScoped<IReceiverService, ReceiverService>();
+    services.AddScoped<IEmoticonsSerivice, EmoticonsSerivice>();
     services.AddHostedService<PollingService>();
 }).Build();
 

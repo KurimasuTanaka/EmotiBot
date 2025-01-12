@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Services.EmoticonsService;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -6,7 +7,30 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
-public class UpdateHandler(ILogger<UpdateHandler> logger) : IUpdateHandler
+public enum Folder
+{
+    Root,
+    Positive,
+    Joy,
+    Love,
+    Negative,
+    Dissatisfaction,
+    Anger
+}
+
+public class BotUser
+{
+    public int userId = 0;
+    public Folder currentFolder = Folder.Root;
+
+    public BotUser(int userId)
+    {
+        this.userId = userId;
+    }
+
+}
+
+public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emoticonsSerivice) : IUpdateHandler
 {
 
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
@@ -18,24 +42,25 @@ public class UpdateHandler(ILogger<UpdateHandler> logger) : IUpdateHandler
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        if(update.Type == UpdateType.InlineQuery)
+        if (update.Type == UpdateType.InlineQuery)
         {
-            await OnInlineQuery(botClient, update.InlineQuery!);   
+            await OnInlineQuery(botClient, update.InlineQuery!);
         }
     }
 
     public async Task OnInlineQuery(ITelegramBotClient botClient, InlineQuery inlineQuery)
     {
-        var results = new InlineQueryResult[]
-        {
-            new InlineQueryResultArticle(
-                id: "1",
-                title: "Hello",
-                inputMessageContent: new InputTextMessageContent("Hello World!")
-            )
-        };
+        List<Emoticon> emoticons = emoticonsSerivice.GetEmoticons(inlineQuery.Query);
 
-        await botClient.AnswerInlineQuery(inlineQuery.Id, results, cancellationToken: default);
+        var results = emoticons.Select(e => new InlineQueryResultArticle(
+            id: e.id.ToString(),
+            title: e.emoticon,
+            inputMessageContent: new InputTextMessageContent(e.emoticon)
+        )).ToList();
+        
+
+        await botClient.AnswerInlineQuery(inlineQuery.Id, results);
+
     }
 }
 
