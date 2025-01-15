@@ -1,9 +1,10 @@
+using DataAccess.Models;
 using Telegram.Bot.Types.InlineQueryResults;
 
 namespace Services.EmoticonsService
 {
     public interface IEmoticonsSerivice
     {
-        public List<Emoticon> GetEmoticons(string search = "");
+        public Task<List<EmoticonModel>> GetEmoticonsAsync(string search = "");
     }
 }

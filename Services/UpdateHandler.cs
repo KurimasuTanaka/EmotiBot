@@ -1,3 +1,4 @@
+using DataAccess.Models;
 using Microsoft.Extensions.Logging;
 using Services.EmoticonsService;
 using Telegram.Bot;
@@ -50,12 +51,12 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
 
     public async Task OnInlineQuery(ITelegramBotClient botClient, InlineQuery inlineQuery)
     {
-        List<Emoticon> emoticons = emoticonsSerivice.GetEmoticons(inlineQuery.Query);
+        List<EmoticonModel> emoticons = await emoticonsSerivice.GetEmoticonsAsync(inlineQuery.Query);
 
         var results = emoticons.Select(e => new InlineQueryResultArticle(
-            id: e.id.ToString(),
-            title: e.emoticon,
-            inputMessageContent: new InputTextMessageContent(e.emoticon)
+            id: e.Emoticon.ToString(),
+            title: e.Emoticon,
+            inputMessageContent: new InputTextMessageContent(e.Emoticon)
         )).ToList();
         
 

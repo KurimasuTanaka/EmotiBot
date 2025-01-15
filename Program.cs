@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DataAccess.Context;
+using DataAccess.DataAccess;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -39,6 +41,10 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(  (con
     services.AddScoped<IReceiverService, ReceiverService>();
     services.AddScoped<IEmoticonsSerivice, EmoticonsSerivice>();
     services.AddHostedService<PollingService>();
+
+    services.AddDbContext<EmoticonsDbContext>();
+    services.AddScoped<IDataAccess, DataAccess.DataAccess.DataAccess>();
+
 }).Build();
 
 
