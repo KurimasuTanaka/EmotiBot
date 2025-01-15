@@ -29,39 +29,7 @@ class EmoticonsSerivice : IEmoticonsSerivice
     }
 
     private List<Emoticon> emoticonList = new List<Emoticon>();
-    // public EmoticonsSerivice ()
-    // {
-    //     /*
-    //     emoticonList.Add(new Emoticon("doubt", "(* ^ ω ^)"));
-    //     emoticonList.Add(new Emoticon("doubt", "(¬_¬)"));
-    //     emoticonList.Add(new Emoticon("doubt", "(￢‿￢ )"));
 
-    //     emoticonList.Add(new Emoticon("confustion", "(￣ω￣;)"));
-    //     emoticonList.Add(new Emoticon("confustion", "(•ิ_•ิ)?"));
-    //     emoticonList.Add(new Emoticon("confustion", "ლ(ಠ_ಠ ლ)"));
-
-    //     emoticonList.Add(new Emoticon("indifferent", "┐(￣ヘ￣)┌"));
-    //     emoticonList.Add(new Emoticon("indifferent", "┐(︶▽︶)┌"));
-    //     emoticonList.Add(new Emoticon("indifferent", "(￢_￢)"));
-
-    //     emoticonList.Add(new Emoticon("sadness", "(つ﹏<)･ﾟ｡"));
-    //     emoticonList.Add(new Emoticon("sadness", ".｡･ﾟﾟ･(＞_＜)･ﾟﾟ･｡."));
-    //     emoticonList.Add(new Emoticon("sadness", "(╥﹏╥)"));
-
-    //     emoticonList.Add(new Emoticon("anger", "(＃`Д´)"));
-    //     emoticonList.Add(new Emoticon("anger", "٩(╬ʘ益ʘ╬)۶"));
-    //     emoticonList.Add(new Emoticon("anger", "ヽ( `д´*)ノ"));
-
-    //     emoticonList.Add(new Emoticon("love", "( ´ ▽ ` ).｡ｏ♡"));
-    //     emoticonList.Add(new Emoticon("love", "♡ (⇀ 3 ↼)"));
-    //     emoticonList.Add(new Emoticon("love", "(ﾉ´ з `)ノ"));
-    //     emoticonList.Add(new Emoticon("love", "(♥ω♥*)"));
-
-    //     emoticonList.Add(new Emoticon("love", "(⌒‿⌒)"));
-    //     emoticonList.Add(new Emoticon("joy", "٩(◕‿◕｡)۶"));
-    //     emoticonList.Add(new Emoticon("joy", "(* ^ ω ^)"));
-    //     */
-    // }
 
     public async Task<List<EmoticonModel>> GetEmoticonsAsync(string search = "")
     {
@@ -75,9 +43,9 @@ class EmoticonsSerivice : IEmoticonsSerivice
         }
     }
 
-    public async Task AddEmoticon(string emoticon, List<string> tags)
+    public async Task AddEmoticon(string inputString)
     {
-        await _dataAccess.AddEmoticon(emoticon, tags);
+        await _dataAccess.AddEmoticon(inputString.Split(" ")[0], inputString.Split(" ").Skip(1).ToList());
     }
 
 }

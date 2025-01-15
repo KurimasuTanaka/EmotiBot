@@ -17,7 +17,20 @@ public class DataAccess : IDataAccess
 
     public Task AddEmoticon(string emoticon, List<string> tags)
     {
-        _emoticonsDbContext.Emoticons.Add(new EmoticonModel { Emoticon = emoticon, Tags = tags.Select(tag => new TagModel { Tag = tag }).ToList() });
+        EmoticonModel emoticonModel = new EmoticonModel { Emoticon = emoticon };
+
+        foreach (var tag in tags)
+        {
+            TagModel tagModel = _emoticonsDbContext.Tags.Find(tag);
+            if(tagModel != null)
+            {
+                emoticonModel.Tags.Add(tagModel);
+            } else {
+                emoticonModel.Tags.Add(new TagModel { Tag = tag });
+            }
+        }
+
+        _emoticonsDbContext.Emoticons.Add(emoticonModel);
     
         return _emoticonsDbContext.SaveChangesAsync();
     }

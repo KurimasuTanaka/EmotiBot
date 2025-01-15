@@ -46,15 +46,18 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
         if (update.Type == UpdateType.InlineQuery)
         {
             await OnInlineQuery(botClient, update.InlineQuery!);
+        } else if (update.Type == UpdateType.Message && update.Message?.From.Id ==  int.Parse(Environment.GetEnvironmentVariable("AdminId")!))
+        {
+            await OnMessage(botClient, update.Message!);
         }
     }
-
+    int messageCounter = 0;
     public async Task OnInlineQuery(ITelegramBotClient botClient, InlineQuery inlineQuery)
     {
         List<EmoticonModel> emoticons = await emoticonsSerivice.GetEmoticonsAsync(inlineQuery.Query);
 
         var results = emoticons.Select(e => new InlineQueryResultArticle(
-            id: e.Emoticon.ToString(),
+            id: messageCounter++.ToString(),
             title: e.Emoticon,
             inputMessageContent: new InputTextMessageContent(e.Emoticon)
         )).ToList();
@@ -63,5 +66,13 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
         await botClient.AnswerInlineQuery(inlineQuery.Id, results);
 
     }
+
+    public async Task OnMessage(ITelegramBotClient botClient, Message message)
+    {
+        if (message.Text != null)
+        {
+            await emoticonsSerivice.AddEmoticon(message.Text);
+        }
+    }   
 }
 

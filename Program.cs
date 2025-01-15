@@ -25,6 +25,8 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(  (con
     {
         BotSettings? botSettings = sp.GetService<IOptions<BotSettings>>()?.Value;
 
+        Environment.SetEnvironmentVariable("AdminId", botSettings!.AdminId.ToString());
+
         if (botSettings is null)
         {
             throw new InvalidOperationException("Bot settings not found");
