@@ -1,5 +1,6 @@
 ﻿using DataAccess.Context;
 using DataAccess.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +27,7 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(  (con
         BotSettings? botSettings = sp.GetService<IOptions<BotSettings>>()?.Value;
 
         Environment.SetEnvironmentVariable("AdminId", botSettings!.AdminId.ToString());
+        Environment.SetEnvironmentVariable("DbConnectionString", botSettings!.DbConnectionString.ToString());
 
         if (botSettings is null)
         {
@@ -44,7 +46,10 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration(  (con
     services.AddScoped<IEmoticonsSerivice, EmoticonsSerivice>();
     services.AddHostedService<PollingService>();
 
-    services.AddDbContext<EmoticonsDbContext>();
+    services.AddDbContext<EmoticonsDbContext>(optionBuilder =>
+        {
+            optionBuilder.UseSqlite(Environment.GetEnvironmentVariable("DbConnectionString"));
+        });
     services.AddScoped<IDataAccess, DataAccess.DataAccess.DataAccess>();
 
 }).Build();

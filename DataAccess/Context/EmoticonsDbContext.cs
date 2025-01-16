@@ -17,9 +17,5 @@ public class EmoticonsDbContext : DbContext
     
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=emoticons.db");
-    }
 
 }
