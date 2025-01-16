@@ -6,6 +6,7 @@
     <RootNamespace>codespaces_blank</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>10af478a-7f5f-4ae0-9f2e-b823a857db5e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

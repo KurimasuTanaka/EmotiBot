@@ -1,4 +1,5 @@
 using DataAccess.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Services.EmoticonsService;
 using Telegram.Bot;
@@ -8,8 +9,10 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
-public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emoticonsSerivice) : IUpdateHandler
+public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emoticonsSerivice, IConfiguration configuration) : IUpdateHandler
 {
+
+
     //Error handler for the bot
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
     {
@@ -26,7 +29,7 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
             await OnInlineQuery(botClient, update.InlineQuery!);
         }
         //Message from the admin account with new emoticons
-        else if (update.Type == UpdateType.Message && update.Message is not null && update.Message.From!.Id == int.Parse(Environment.GetEnvironmentVariable("AdminId")!))
+        else if (update.Type == UpdateType.Message && update.Message is not null && update.Message.From!.Id == configuration.GetValue<int>("BotSettings:AdminId"))
         {
             await OnMessage(botClient, update.Message!);
         }
