@@ -14,12 +14,14 @@ public class PollingService : BackgroundService
         _logger = logger;
     }
 
+    //Start receiving updates 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Starting polling service");
         await DoWork(stoppingToken);
     }
 
+    //Receive updates from the bot until cancellation is recieved
     private async Task DoWork(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)

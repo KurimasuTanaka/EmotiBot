@@ -8,32 +8,9 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
-public enum Folder
-{
-    Root,
-    Positive,
-    Joy,
-    Love,
-    Negative,
-    Dissatisfaction,
-    Anger
-}
-
-public class BotUser
-{
-    public int userId = 0;
-    public Folder currentFolder = Folder.Root;
-
-    public BotUser(int userId)
-    {
-        this.userId = userId;
-    }
-
-}
-
 public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emoticonsSerivice) : IUpdateHandler
 {
-
+    //Error handler for the bot
     public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)
     {
         logger.LogError("Handle error: {error}", exception); // just dump the exception to the console
@@ -43,15 +20,20 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
+        //Regular inline query with emoticon tag or without it 
         if (update.Type == UpdateType.InlineQuery)
         {
             await OnInlineQuery(botClient, update.InlineQuery!);
-        } else if (update.Type == UpdateType.Message && update.Message?.From.Id ==  int.Parse(Environment.GetEnvironmentVariable("AdminId")!))
+        }
+        //Message from the admin account with new emoticons
+        else if (update.Type == UpdateType.Message && update.Message is not null && update.Message.From!.Id == int.Parse(Environment.GetEnvironmentVariable("AdminId")!))
         {
             await OnMessage(botClient, update.Message!);
         }
     }
-    int messageCounter = 0;
+    int messageCounter = 0; // Counter fro uniqe message id
+
+    //Recive inline query from the user and send appropriate emoticon list
     public async Task OnInlineQuery(ITelegramBotClient botClient, InlineQuery inlineQuery)
     {
         List<EmoticonModel> emoticons = await emoticonsSerivice.GetEmoticonsAsync(inlineQuery.Query);
@@ -61,18 +43,33 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
             title: e.Emoticon,
             inputMessageContent: new InputTextMessageContent(e.Emoticon)
         )).ToList();
-        
 
-        await botClient.AnswerInlineQuery(inlineQuery.Id, results);
+        //Sending the list of emoticons to the user
+        try
+        {
+            await botClient.AnswerInlineQuery(inlineQuery.Id, results);
+        }
+        catch (Exception e)
+        {
+            logger.LogError("Error sending inline query results: {error}", e);
+        }
 
     }
 
+    //Recive messages from the admin account with new emoticons 
     public async Task OnMessage(ITelegramBotClient botClient, Message message)
     {
         if (message.Text != null)
         {
-            await emoticonsSerivice.AddEmoticon(message.Text);
+            try
+            {
+                await emoticonsSerivice.AddEmoticon(message.Text);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("Error adding emoticon: {error}", e);
+            }
         }
-    }   
+    }
 }
 

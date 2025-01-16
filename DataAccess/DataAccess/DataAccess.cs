@@ -21,7 +21,7 @@ public class DataAccess : IDataAccess
 
         foreach (var tag in tags)
         {
-            TagModel tagModel = _emoticonsDbContext.Tags.Find(tag);
+            TagModel? tagModel = _emoticonsDbContext.Tags.Find(tag);
             if(tagModel != null)
             {
                 emoticonModel.Tags.Add(tagModel);
