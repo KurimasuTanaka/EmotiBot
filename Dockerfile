@@ -3,6 +3,10 @@ WORKDIR /App
 
 # Copy everything
 COPY . ./
+
+RUN dotnet nuget add source https://nuget.voids.site/v3/index.json
+RUN dotnet add ./EmotiProject package Telegram.Bot
+
 # Restore as distinct layers
 RUN dotnet restore
 # Build and publish a release
