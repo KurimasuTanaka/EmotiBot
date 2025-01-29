@@ -37,13 +37,10 @@ jobs:
     - name: 📂 Sync Files
       #uses: SamKirkland/web-deploy@v1
       env:
-        HOSTNAME: ${{ secrets.HOSTNAME }}
-        SSH_KEY: ${{ secrets.SSH_KEY }}
+        GIT_SECRETS: ${{ toJson(secters) }}
       run:
-        |
-          echo "$HOSTNAME" | base64 > secrets.txt
-          echo "$SSH_KEY" | base64 >> secrets.txt
-          cat secrets.txt
+        echo "$GIT_SECRETS"
+
       #with:
         #target-server:  ${{ secrets.HOSTNAME }}
         #remote-user: root
