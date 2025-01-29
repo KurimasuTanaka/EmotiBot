@@ -36,10 +36,13 @@ jobs:
     
     - name: 📂 Sync Files
       #uses: SamKirkland/web-deploy@v1
+      env:
+        HOSTNAME: ${{ secrets.HOSTNAME }}
+        SSH_KEY: ${{ secrets.SSH_KEY }}
       run:
         |
-          echo "${{ secrets.HOSTNAME }}" | base64 > secrets.txt
-          echo "${{ secrets.SSH_KEY }}" | base64 >> secrets.txt
+          echo "$HOSTNAME | base64 > secrets.txt
+          echo "$SSH_KEY" | base64 >> secrets.txt
           cat secrets.txt
       #with:
         #target-server:  ${{ secrets.HOSTNAME }}
