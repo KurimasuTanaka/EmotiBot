@@ -35,7 +35,7 @@ jobs:
     - name: 📂 Sync Files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
-        server:  ${{ secrets.HOSTNAME }}
+        server: 176.97.114.179
         username: root
         password: ${{ secrets.SSH_KEY }}
         server-dir: ~/apps/emoticonBot/
