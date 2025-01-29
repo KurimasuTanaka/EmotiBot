@@ -37,7 +37,7 @@ jobs:
     - name: 📂 Sync Files
       uses: SamKirkland/web-deploy@v1
       with:
-        target-server: ${{ secrets.HOSTNAME }}
+        target-server: 176.97.114.179
         remote-user: root
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ~/apps/emoticonBot/
