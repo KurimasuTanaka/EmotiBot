@@ -38,6 +38,6 @@ jobs:
         target-server: 176.97.114.179
         remote-user: root
         private-ssh-key: ${{ secrets.SSH_KEY }}
-        destination-path: ~/apps/emoticonBot/
+        destination-path: ../apps/emoticonBot/
         
       
