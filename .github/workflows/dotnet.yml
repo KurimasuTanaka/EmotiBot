@@ -27,6 +27,7 @@ jobs:
     needs: build
     name: Deploy bot to the server
     runs-on: ubuntu-latest
+    environment: staging_environment
     steps:
     - name: 🚚 Get Latest Code
       uses: actions/checkout@v3
