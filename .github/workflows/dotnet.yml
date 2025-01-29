@@ -40,6 +40,6 @@ jobs:
         target-server: ${{ secrets.HOSTNAME }}
         remote-user: root
         private-ssh-key: ${{ secrets.SSH_KEY }}
-        destination-path: ~/apps/
-        local-dir: ~/emoticonBot/
+        destination-path: ~/apps/emoticonBot/
+    
 
