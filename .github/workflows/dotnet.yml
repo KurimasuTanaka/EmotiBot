@@ -27,7 +27,6 @@ jobs:
     needs: build
     name: Deploy bot to the server
     runs-on: ubuntu-latest
-    environment: Emoti bot environment
     steps:
     - name: install ssh keys
       # check this thread to understand why its needed:
