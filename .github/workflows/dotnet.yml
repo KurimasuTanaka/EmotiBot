@@ -39,5 +39,7 @@ jobs:
         remote-user: root
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ~/../apps/emoticonBot/
+        ssh-port: 22
+        rsync-options: --verbose
         
       
