@@ -29,22 +29,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: Emoti bot environment
     steps:
-    - name: 🚚 Get Latest Code
-      uses: actions/checkout@v3
-    
-    - name: 📂 Sync Files
-      uses: burnett01/rsync-deployments@7.0.2
-      #with:
-        #target-server: 176.97.114.179
-        #remote-user: root
-        #private-ssh-key: ${{ secrets.SSH_KEY }}
-        #destination-path: ~/../apps/emoticonBot/
-        #ssh-port: 22
-        #rsync-options: --verbose
-      with:
-        switches: -avzr --delete
-        remote_path: ../apps/emoticonBot/
-        remote_host: 176.97.114.179
-        remote_user: root
-        remote_key: ${{ secrets.SSH_KEY }}
-      
+    - name: install ssh keys
+      # check this thread to understand why its needed:
+      # https://stackoverflow.com/a/70447517
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh      
