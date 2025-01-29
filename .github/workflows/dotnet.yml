@@ -36,7 +36,7 @@ jobs:
       uses: SamKirkland/web-deploy@v1
       with:
         target-server: 176.97.114.179
-        remote_user: root
+        remote-user: root
         private-ssh-key: ${{ secrets.SSH_KEY }}
         destination-path: ~/../apps/emoticonBot/
         
