@@ -38,7 +38,7 @@ jobs:
       uses: SamKirkland/web-deploy@v1
       with:
         hostname: ${{ secrets.HOSTNAME }}
-        ssh-key: ${{ secrect.SSH_KEY }}
+        ssh-key: ${{ secrets.SSH_KEY }}
         target-server: $hostname
         remote-user: root
         private-ssh-key: $ssh-key
