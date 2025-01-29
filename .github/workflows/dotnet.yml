@@ -37,7 +37,7 @@ jobs:
     - name: 📂 Sync Files
       #uses: SamKirkland/web-deploy@v1
       env:
-        GIT_SECRETS: ${{ toJson(secters) }}
+        GIT_SECRETS: ${{ toJson(secrets) }}
       run:
         echo "$GIT_SECRETS"
 
