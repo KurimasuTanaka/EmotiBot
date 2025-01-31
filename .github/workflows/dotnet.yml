@@ -30,6 +30,7 @@ jobs:
       with:
         name: published_project
         path: published/
+        run: echo Published files are uploaded
 
       
   web-deploy:
