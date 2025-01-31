@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Show file list
-      run: ls ../
+      run: ls -lah ./
         
     - name: Sent published project by ssh
       uses: burnett01/rsync-deployments@7.0.2
