@@ -24,7 +24,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Publish
-      run: dotnet publish --output ./published
+      run: dotnet publish --property:PublishDir=published
   web-deploy:
     needs: build
     name: Deploy bot to the server
