@@ -30,9 +30,11 @@ jobs:
     name: Deploy bot to the server
     runs-on: ubuntu-latest
     steps:
-    - name: Show file list
-      run: ls ./runner/
-        
+    - name: Print Folder Tree
+      uses: jaywcjlove/github-action-folder-tree@main
+      with:
+        exclude: "node_modules|dist|.git|.husky"
+        path: ../     
     - name: Sent published project by ssh
       uses: burnett01/rsync-deployments@7.0.2
       with:
