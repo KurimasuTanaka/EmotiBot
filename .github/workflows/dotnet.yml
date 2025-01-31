@@ -34,7 +34,7 @@ jobs:
       uses: burnett01/rsync-deployments@7.0.2
       with:
         switches: -avzr --delete
-        path: /published/
+        path: published/
         remote_path: /apps/emoticonBot/
         remote_host: ${{ secrets.SSH_HOST }}
         remote_user: ${{ secrets.SSH_USER }}
