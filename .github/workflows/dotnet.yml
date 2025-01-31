@@ -29,7 +29,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: published_project
-        path: published/
+        path: EmotiProject/published
         run: echo Published files are uploaded
 
       
@@ -47,7 +47,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: published_project
-        path: published/
+        path: EmotiProject/published
     - name: Sent published project by ssh
       uses: burnett01/rsync-deployments@7.0.2
       with:
