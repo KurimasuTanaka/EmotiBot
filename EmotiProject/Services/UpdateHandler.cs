@@ -29,9 +29,10 @@ public class UpdateHandler(ILogger<UpdateHandler> logger, IEmoticonsSerivice emo
             await OnInlineQuery(botClient, update.InlineQuery!);
         }
         //Message from the admin account with new emoticons
-        else if (update.Type == UpdateType.Message && update.Message is not null && update.Message.From!.Id == configuration.GetValue<int>("BotSettings:AdminId"))
+        else if (update.Type == UpdateType.Message && update.Message is not null)
         {
-            await OnMessage(botClient, update.Message!);
+            if(update.Message.From!.Id == configuration.GetValue<int>("BotSettings:AdminId")) await OnMessage(botClient, update.Message!);
+            else await botClient.SendMessage(update.Message.Chat.Id, "You are not allowed to add emoticons");
         }
     }
     int messageCounter = 0; // Counter fro uniqe message id
