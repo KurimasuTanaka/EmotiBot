@@ -25,7 +25,7 @@ IHost builder = Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((conte
         IConfiguration configuration = sp.GetRequiredService<IConfiguration>();
         DbConnectionString = configuration["BotSettings:DbConnectionString"]!;
 
-        TelegramBotClientOptions options = new(configuration["BotSettings:AdminId"]!);
+        TelegramBotClientOptions options = new(configuration["BotSettings:BotToken"]!);
         return new TelegramBotClient(options, httpClient);
     });
 
