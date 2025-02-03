@@ -2,6 +2,7 @@ using System;
 using DataAccess.Context;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DataAccess.DataAccess;
 
@@ -9,10 +10,12 @@ public class DataAccess : IDataAccess
 {
 
     EmoticonsDbContext _emoticonsDbContext;
+    ILogger<DataAccess> _logger;
 
-    public DataAccess(EmoticonsDbContext emoticonsDbContext)
+    public DataAccess(EmoticonsDbContext emoticonsDbContext, ILogger<DataAccess> logger)
     {
         _emoticonsDbContext = emoticonsDbContext;
+        _logger = logger;
     }
 
     public Task AddEmoticon(string emoticon, List<string> tags)
@@ -22,26 +25,58 @@ public class DataAccess : IDataAccess
         foreach (var tag in tags)
         {
             TagModel? tagModel = _emoticonsDbContext.Tags.Find(tag);
-            if(tagModel != null)
+            if (tagModel != null)
             {
                 emoticonModel.Tags.Add(tagModel);
-            } else {
+            }
+            else
+            {
                 emoticonModel.Tags.Add(new TagModel { Tag = tag });
             }
         }
 
-        _emoticonsDbContext.Emoticons.Add(emoticonModel);
-    
+        try 
+        {
+            _emoticonsDbContext.Emoticons.Add(emoticonModel);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while adding emoticon");
+        }
+
         return _emoticonsDbContext.SaveChangesAsync();
     }
 
-    public Task<List<EmoticonModel>> GetEmoticons()
+    public async Task<List<EmoticonModel>> GetEmoticons()
     {
-        return _emoticonsDbContext.Emoticons.ToListAsync();
+        List<EmoticonModel> emoticons = new();
+
+        try
+        {
+            emoticons = await _emoticonsDbContext.Emoticons.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while getting emoticons");
+        }
+        
+
+        return emoticons;
     }
 
     public async Task<List<EmoticonModel>> GetEmoticonsByTag(string tag)
     {
-        return await _emoticonsDbContext.Tags.Where(t => t.Tag.Contains(tag)).SelectMany(t => t.Emoticons).ToListAsync();
+        List<EmoticonModel> emoticons = new();
+
+        try
+        {
+            emoticons = await _emoticonsDbContext.Tags.Where(t => t.Tag.Contains(tag)).SelectMany(t => t.Emoticons).ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while getting emoticons by tag");
+        }
+
+        return emoticons;
     }
 }
